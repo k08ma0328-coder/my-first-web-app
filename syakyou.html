@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>施術料金計算</title>
+    <style>
+      /* CSS: 見た目を整える */
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      .menu-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        display: block;
+      }
+      .total-area {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 1.5em;
+        color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>施術メニュー選択</h2>
+
+    <form id="menuForm">
+      <label class="menu-item">
+        <input type="checkbox" class="course" data-price="6000" />
+        全身整体コース (6,000円)
+      </label>
+
+      <label class="menu-item">
+        <input type="checkbox" class="course" data-price="4000" />
+        鍼灸局所治療 (4,000円)
+      </label>
+
+      <label class="menu-item">
+        <input type="checkbox" class="course" data-price="8000" />
+        美容鍼 + 小顔矯正 (8,000円)
+      </label>
+    </form>
+
+    <div class="total-area">合計金額: <span id="totalPrice">0</span> 円</div>
+
+    <script>
+      // 1. 必要な要素をHTMLから全部持ってくる
+      // '.course' というクラスがついた全てのチェックボックスを取得
+      const checkboxes = document.querySelectorAll(".course");
+      // 合計金額を表示する場所を取得
+      const totalDisplay = document.getElementById("totalPrice");
+
+      // 2. 計算ロジックを作る関数
+      function calculateTotal() {
+        let total = 0;
+
+        // 全てのチェックボックスを一つずつ確認するループ
+        checkboxes.forEach(function (box) {
+          // もしチェックが入っていたら
+          if (box.checked) {
+            // data-priceの値(文字列)を数値に変換して足す
+            total += parseInt(box.dataset.price);
+          }
+        });
+
+        // 計算結果を画面に表示する
+        totalDisplay.textContent = total.toLocaleString(); // カンマ区切りにする
+      }
+
+      // 3. 全てのチェックボックスに「変更があったら計算関数を動かす」監視役をつける
+      checkboxes.forEach(function (box) {
+        box.addEventListener("change", calculateTotal);
+      });
+    </script>
+  </body>
+</html>
